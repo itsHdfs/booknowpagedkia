@@ -1,378 +1,265 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ms">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
-<title>DKIA – Book Now</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKUALAEXPRESS+ Elite</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-  body{min-height:100vh;background:linear-gradient(135deg,#e0f7ef,#ffffff);color:#2f4f2f;display:flex;align-items:center;justify-content:center;padding:24px}
-  .card{width:100%;max-width:820px;background:rgba(255,255,255,0.6);backdrop-filter:blur(12px);border-radius:22px;box-shadow:0 20px 40px rgba(0,0,0,.12);padding:28px}
-  header{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-  header h1{font-size:22px}
-  header h2{font-size:16px;color:#3b5a3b}
-  #timeDate{font-weight:900}
-  .screen{display:none}
-  .screen.active{display:block}
-  h3{font-size:28px;margin-bottom:10px}
-  p.lead{font-size:18px;opacity:.9;margin-bottom:8px}
-  form{display:grid;gap:14px;margin-top:12px}
-  .row{display:grid;gap:12px;grid-template-columns:1fr}
-  @media(min-width:680px){.row{grid-template-columns:1fr 1fr}}
-  input,select{padding:14px 16px;border:none;border-radius:12px;background:rgba(255,255,255,0.75);font-size:16px;color:#2f4f2f}
-  input:focus,select:focus{outline:none;box-shadow:0 0 0 2px rgba(48,133,86,0.5)}
-  .btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:16px}
-  button{padding:14px 24px;border:none;border-radius:14px;background:rgba(48,133,86,0.9);color:#fff;font-weight:800;font-size:16px;cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,.12);transition:.2s}
-  button:hover{filter:brightness(1.06)}
-  .btn-secondary{background:rgba(0,0,0,0.15);color:#1b3a2a}
-  .btn-danger{background:rgba(200,50,50,0.9)}
-  .list{margin-top:14px;border-radius:14px;overflow:hidden;border:1px solid rgba(0,0,0,.06)}
-  .item{display:grid;gap:8px;padding:14px;background:#fff}
-  .item:nth-child(odd){background:#f8fdfb}
-  .item h4{font-size:18px}
-  .muted{opacity:.7}
-  .ref-wrap{margin-top:14px;text-align:center}
-  .ref-label{font-size:14px;opacity:.7}
-  .ref-code{font-size:48px;font-weight:900;letter-spacing:2px;margin-top:6px}
-  .success{color:#206a4d}
-  .warning{color:#b34b00}
-  .note{margin-top:10px;font-size:14px;opacity:.85}
-  .center{text-align:center}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+body{background:#111;color:#fff;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;}
+.container{background:#1a1a1a;border-radius:20px;padding:30px;max-width:500px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,0.7);}
+h2{color:#d4af37;margin-bottom:20px;font-size:1.6rem;text-align:center;}
+input, select{width:100%;padding:15px;margin:10px 0;border-radius:12px;border:2px solid #d4af37;background:#222;color:#fff;font-size:1rem;}
+button{width:100%;padding:18px;margin-top:15px;border-radius:12px;border:none;background:linear-gradient(90deg,#d4af37,#a8b77e);color:#111;font-size:1.2rem;font-weight:700;cursor:pointer;transition:transform 0.2s, box-shadow 0.2s;}
+button:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(212,175,55,0.7);}
+h1.bookingCode{color:#d4af37;font-size:2rem;text-align:center;margin:20px 0;}
+table {width: 100%; border-collapse: separate; border-spacing: 0; border: 2px solid #d4af37; border-radius: 15px; overflow: hidden; margin-top: 15px; background:#222; box-shadow: 0 5px 15px rgba(212,175,55,0.5);}
+th, td {padding: 12px; text-align: center; border-bottom: 1px solid #d4af37;}
+th {background: #333; font-weight: 700;}
+tr:last-child td {border-bottom: none;}
+button.pickCar {background: linear-gradient(90deg,#d4af37,#a8b77e);color:#111;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:700;}
+button.pickCar:hover {transform: translateY(-2px);box-shadow:0 5px 15px rgba(212,175,55,0.5);}
+#loadingScreen{position:fixed;top:0;left:0;width:100%;height:100%;background:#111;display:flex;justify-content:center;align-items:center;flex-direction:column;color:#d4af37;font-weight:900;z-index:1000;}
+.loader{border:12px solid #333;border-top:12px solid #d4af37;border-radius:50%;width:120px;height:120px;background: linear-gradient(45deg, #d4af37, #ffeaa7, #ffd700, #d4af37);background-size:400% 400%;animation:spin 1s linear infinite, gradientShift 2.5s ease infinite;margin-bottom:20px;}
+.loader-text{font-size:2.5rem;text-align:center;letter-spacing:2px;animation:glow 1.5s infinite alternate, floatText 2s ease-in-out infinite;}
+@keyframes spin{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes gradientShift{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes glow{0%{text-shadow:0 0 10px #d4af37,0 0 20px #ffd700;}100%{text-shadow:0 0 25px #ffd700,0 0 50px #fff59d;}}
+@keyframes floatText{0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0);}}
 </style>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <div class="card">
-    <header>
-      <h1>D Kuala International Airport (KIR)</h1>
-      <h2>Skylines Airport</h2>
-      <div id="timeDate"></div>
-    </header>
+<div id="loadingScreen">
+  <div class="loader"></div>
+  <div class="loader-text">MYKUALAEXPRESS+</div>
+</div>
 
-    <!-- Screen 1: Welcome -->
-    <section id="s1" class="screen active">
-      <h3>Welcome to DKIA Book Now</h3>
-      <p class="lead">Ready to book your trip?</p>
-      <div class="btns">
-        <button id="s1Continue">Continue</button>
-        <button class="btn-danger" id="s1Cancel">Cancel</button>
-      </div>
-    </section>
-
-    <!-- Screen 2: Personal Info -->
-    <section id="s2" class="screen">
-      <h3>Personal Information</h3>
-      <form id="formPersonal">
-        <div class="row">
-          <select id="title" required>
-            <option value="">Title</option>
-            <option>MR</option>
-            <option>MS</option>
-            <option>MRS</option>
-          </select>
-          <input id="fullname" placeholder="Full name" required />
-        </div>
-        <div class="row">
-          <select id="gender" required>
-            <option value="">Gender</option>
-            <option>MALE</option>
-            <option>FEMALE</option>
-          </select>
-          <input id="dob" type="date" placeholder="Date of Birth" required />
-        </div>
-        <div class="row">
-          <input id="ic" inputmode="numeric" pattern="\\d{5,}" placeholder="IC (first 5 digits)" required />
-          <input id="phone" inputmode="tel" placeholder="Phone (optional)" />
-        </div>
-      </form>
-      <div class="btns">
-        <button class="btn-secondary" data-back="#s1">Back</button>
-        <button id="toFlights">Next</button>
-      </div>
-    </section>
-
-    <!-- Screen 3: Flight Search -->
-    <section id="s3" class="screen">
-      <h3>Flight Search</h3>
-      <form id="formSearch">
-        <div class="row">
-          <select id="from" required>
-            <option value="D KUALA (KIR)">D KUALA (KIR)</option>
-          </select>
-          <select id="to" required>
-            <option value="">Destination</option>
-            <option value="KOTA KINABALU (BKI)">KOTA KINABALU (BKI)</option>
-            <option value="KUALA LUMPUR (KUL)">KUALA LUMPUR (KUL)</option>
-            <option value="SUBANG (SZB)">SUBANG (SZB)</option>
-          </select>
-        </div>
-        <div class="row">
-          <input id="dateBoard" type="date" required />
-        </div>
-      </form>
-      <div class="btns">
-        <button class="btn-secondary" data-back="#s2">Back</button>
-        <button id="searchFlights">Search</button>
-      </div>
-
-      <div id="flightResults" class="list" style="display:none;"></div>
-    </section>
-
-    <!-- Screen 4: Flight Details & Choose -->
-    <section id="s4" class="screen">
-      <h3>Available Flights</h3>
-      <div id="chosenRoute" class="muted"></div>
-      <div id="flightsList" class="list"></div>
-      <div class="btns">
-        <button class="btn-secondary" data-back="#s3">Back</button>
-      </div>
-    </section>
-
-    <!-- Screen 5: Payment Instruction -->
-    <section id="s5" class="screen center">
-      <h3>Payment at Counter</h3>
-      <p class="lead">Please pay at the counter after this setup.</p>
-      <div class="ref-wrap">
-        <div class="ref-label">Your Reference Code</div>
-        <div id="refCode" class="ref-code">—</div>
-      </div>
-      <p class="note"><strong>For safety:</strong> please take a photo or screenshot of this page.</p>
-      <div id="pickedFlight" class="list" style="margin-top:16px"></div>
-      <div class="btns">
-        <button class="btn-secondary" data-back="#s4">Back</button>
-        <button id="confirmBooking">Confirm Booking</button>
-      </div>
-    </section>
-
-    <!-- Screen 6: Completion -->
-    <section id="s6" class="screen center">
-      <h3 class="success">Booking Complete</h3>
-      <p class="lead">You can now go to the counter.</p>
-      <div class="ref-wrap">
-        <div class="ref-label">Your Reference Code</div>
-        <div id="finalRef" class="ref-code">—</div>
-      </div>
-      <p class="note">This page will auto transfer to home if your not choosing your own seat in <span id="countdown">30</span> seconds…</p>
-      <div class="btns" style="justify-content:center;margin-top:16px">
-        <button id="doneBtn">Done</button>
-      </div>
-    </section>
+<div id="mainApp" style="display:none;">
+  <!-- Book Now -->
+  <div class="container" id="bookNowScreen">
+    <h2>MYKUALAEXPRESS+</h2>
+    <h2>Book Your Ride</h2>
+    <form id="bookForm">
+      <select name="title" required>
+        <option value="">Your title</option>
+        <option>Mr.</option>
+        <option>Ms.</option>
+        <option>Mrs.</option>
+        <option>Miss.</option>
+      </select>
+      <input type="text" name="fullName" placeholder="Full name" required>
+      <input type="date" name="dob" required max="2013-12-31">
+      <input type="text" name="ic" placeholder="IC Numb." required readonly>
+      <input type="tel" name="phone" placeholder="Phone" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <button type="submit">Next</button>
+    </form>
   </div>
 
-  <!-- Firebase (v9 modular) -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
-    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+  <!-- Find Cars -->
+  <div class="container" id="findCarsScreen" style="display:none;">
+    <h2>Find Your Car</h2>
+    <form id="searchForm">
+      <select name="from" required>
+        <option value="">Dari</option>
+        <option>Kuala</option>
+        <option>Binsulok</option>
+        <option>Likas</option>
+        <option>Membakut</option>
+        <option>Kuala Penyu</option>
+      </select>
+      <select name="to" required>
+        <option value="">Ke</option>
+        <option>Kuala</option>
+        <option>Binsulok</option>
+        <option>Likas</option>
+        <option>Membakut</option>
+        <option>Kuala Penyu</option>
+      </select>
+      <button type="submit">Search Cars</button>
+    </form>
+    <table>
+      <thead>
+        <tr><th>Car Type</th><th>Plat Numb.</th><th>Date & Time</th><th>From</th><th>To</th><th>Price MYR</th><th>Action</th></tr>
+      </thead>
+      <tbody id="carTableBody"></tbody>
+    </table>
+    <button onclick="showScreen('bookNowScreen')">Back</button>
+  </div>
 
-    // --- Firebase config ---
-    const firebaseConfig = {
-      apiKey: "AIzaSyDcAq_rnJ3342lCpxalebddMFGDFUrypUg",
-      authDomain: "aeris-data-smkmii.firebaseapp.com",
-      projectId: "aeris-data-smkmii",
-      storageBucket: "aeris-data-smkmii.appspot.com",
-      messagingSenderId: "660083140877",
-      appId: "1:660083140877:web:a3c421a1fb133c6968e844",
-      measurementId: "G-08N43MJYH7"
-    };
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  <!-- Confirm -->
+  <div class="container" id="confirmScreen" style="display:none;">
+    <h2>Confirm Your Booking</h2>
+    <div id="confirmDetails"></div>
+    <button id="confirmBtn">Confirm</button>
+    <button onclick="showScreen('findCarsScreen')">Cancel</button>
+  </div>
 
-    // --- Clock ---
-    function updateTime(){
-      const now = new Date();
-      const pad = (n)=>String(n).padStart(2,"0");
-      const str = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())} - ${pad(now.getDate())}/${pad(now.getMonth()+1)}/${now.getFullYear()}`;
-      document.getElementById('timeDate').textContent = str;
+  <!-- Pre-Payment -->
+  <div class="container" id="prePaymentScreen" style="display:none;">
+    <h2>Your Booking Code</h2>
+    <h1 class="bookingCode" id="bookingCodeDisplay"></h1>
+    <p style="text-align:center;">For safety, please save or screenshot this Booking Code</p>
+    <p style="text-align:center;">Redirecting to home in 20 seconds...</p>
+  </div>
+</div>
+
+<script>
+const firebaseConfig = { apiKey:"AIzaSyDcAq_rnJ3342lCpxalebddMFGDFUrypUg", authDomain:"aeris-data-smkmii.firebaseapp.com", projectId:"aeris-data-smkmii" };
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+const loadingScreen = document.getElementById('loadingScreen');
+const mainApp = document.getElementById('mainApp');
+const bookForm = document.getElementById('bookForm');
+const bookNowScreen = document.getElementById('bookNowScreen');
+const findCarsScreen = document.getElementById('findCarsScreen');
+const confirmScreen = document.getElementById('confirmScreen');
+const prePaymentScreen = document.getElementById('prePaymentScreen');
+const carTableBody = document.getElementById('carTableBody');
+const confirmDetails = document.getElementById('confirmDetails');
+const bookingCodeDisplay = document.getElementById('bookingCodeDisplay');
+
+let bookingData = {};
+
+window.addEventListener('load', ()=>{
+  loadingScreen.style.display='flex';
+  setTimeout(()=>{ loadingScreen.style.display='none'; mainApp.style.display='block'; },1500);
+});
+
+function showScreen(id){
+  bookNowScreen.style.display='none';
+  findCarsScreen.style.display='none';
+  confirmScreen.style.display='none';
+  prePaymentScreen.style.display='none';
+  document.getElementById(id).style.display='block';
+}
+
+// DOB → IC auto
+dobInput = bookForm.querySelector('[name="dob"]');
+icInput = bookForm.querySelector('[name="ic"]');
+dobInput.addEventListener('change', ()=>{
+  const dob = new Date(dobInput.value);
+  if(dob.toString()!=='Invalid Date'){
+    const yy = String(dob.getFullYear()).slice(2);
+    const mm = String(dob.getMonth()+1).padStart(2,'0');
+    const dd = String(dob.getDate()).padStart(2,'0');
+    icInput.value = `${yy}/${mm}/${dd} XXXXXX`;
+  }
+});
+
+// Book Form Submit (12+ only)
+bookForm.addEventListener('submit', e=>{
+  e.preventDefault();
+  const dob = new Date(bookForm.dob.value);
+  if(dob.getFullYear() > 2013){ alert("You must be 12 years old or above."); return; }
+  bookingData = Object.fromEntries(new FormData(bookForm));
+  showScreen('findCarsScreen');
+});
+
+// Search Cars
+const searchForm = document.getElementById('searchForm');
+searchForm.addEventListener('submit', async e=>{
+  e.preventDefault();
+  const searchData = Object.fromEntries(new FormData(searchForm));
+  if(searchData.from===searchData.to){ alert('From & To cannot be same!'); return; }
+
+  bookingData.from = searchData.from;
+  bookingData.to = searchData.to;
+
+  showLoadingScreen();
+  await loadCarsFromFirebase();
+  hideLoadingScreen();
+});
+
+function showLoadingScreen(){ loadingScreen.style.display='flex'; mainApp.style.pointerEvents='none'; setTimeout(()=>{ hideLoadingScreen(); },5000);}
+function hideLoadingScreen(){ loadingScreen.style.display='none'; mainApp.style.pointerEvents='auto'; }
+
+// Load cars
+async function loadCarsFromFirebase(){
+  carTableBody.innerHTML='';
+  const snapshot = await db.collection('CarTransitDetails')
+    .where('from','==',bookingData.from)
+    .where('to','==',bookingData.to)
+    .get();
+
+  if(snapshot.empty){
+    carTableBody.innerHTML=`<tr><td colspan="7">No transit found</td></tr>`;
+    return;
+  }
+
+  snapshot.docs.forEach(doc=>{
+    const car = doc.data();
+    let dateTimeText = '';
+    if(car.date && car.date.toDate){
+      const d = car.date.toDate();
+      dateTimeText = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
     }
-    setInterval(updateTime, 1000); updateTime();
+    const tr = document.createElement('tr');
+    tr.innerHTML=`
+      <td>${car.carModel}</td>
+      <td>${car.numberPlate}</td>
+      <td>${dateTimeText}</td>
+      <td>${car.from}</td>
+      <td>${car.to}</td>
+      <td>${car.price}</td>
+      <td><button class="pickCar" onclick="selectCar('${doc.id}')">Choose</button></td>
+    `;
+    carTableBody.appendChild(tr);
+  });
+}
 
-    // --- Page nav helpers ---
-    const screens = ["s1","s2","s3","s4","s5","s6"].reduce((m,id)=>(m[id]=document.getElementById(id),m),{});
-    function go(id){
-      Object.values(screens).forEach(el=>el.classList.remove('active'));
-      screens[id].classList.add('active');
-      window.scrollTo({top:0,behavior:'smooth'});
-    }
+// Select Car
+async function selectCar(carId){
+  showLoadingScreen();
+  const doc = await db.collection('CarTransitDetails').doc(carId).get();
+  bookingData.selectedCar = doc.data();
+  hideLoadingScreen();
+  loadConfirmScreen();
+}
 
-    // --- State ---
-    const state = {
-      personal: {},
-      search: {},
-      selectedFlight: null,
-      bookingNumber: null
-    };
+// Confirm Screen
+function loadConfirmScreen(){
+  const car = bookingData.selectedCar;
+  const travelDateText = car.date?.toDate ? new Date(car.date.toDate()).toLocaleString() : '';
+  confirmDetails.innerHTML=`
+    <p>Name: ${bookingData.fullName}</p>
+    <p>IC Numb.: ${bookingData.ic}</p>
+    <p>Phone: ${bookingData.phone}</p>
+    <p>Email: ${bookingData.email}</p>
+    <p>Car: ${car.carModel} (${car.numberPlate})</p>
+    <p>Driver: ${car.driver}</p>
+    <p>From: ${car.from} → ${car.to}</p>
+    <p>Price (MYR): ${car.price}</p>
+    <p>Date & Time: ${travelDateText}</p>
+  `;
+  showScreen('confirmScreen');
+}
 
-    // --- Utils ---
-    function genBookingNumber(){
-      // Example: DKIA + 5 alphanumerics (e.g., DKIA-7Q3MZ)
-      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-      let s = "";
-      for(let i=0;i<5;i++) s += chars[Math.floor(Math.random()*chars.length)];
-      return `DKIA-${s}`;
-    }
+// Booking
+function generateBookingCode(){ return `MYKE-${Math.floor(1000 + Math.random()*9000)}`; }
 
-    function priceForRoute(to){
-      if(to==="KUALA LUMPUR (KUL)") return 250;
-      if(to==="KOTA KINABALU (BKI)") return 180;
-      if(to==="SUBANG (SZB)") return 220;
-      return 199;
-    }
+document.getElementById('confirmBtn').addEventListener('click', async ()=>{
+  showLoadingScreen();
+  bookingData.bookingCode = generateBookingCode();
 
-    function buildFlights(from, to, dateStr){
-      const base = [
-        { company:"SKYLINE AIRWAYS", number:"SK5116", craft:"B747" },
-        { company:"SKYLINE AIRWAYS", number:"SK2032", craft:"A321" },
-        { company:"SKYLINE AIRWAYS", number:"SK8890", craft:"B737" },
-      ];
-      const price = priceForRoute(to);
-      return base.map((f,idx)=>({
-        label: `${f.number} (${f.craft} ${f.company})`,
-        flightNumber: `${f.number} (${f.craft} ${f.company})`,
-        dateBoard: dateStr,
-        price: price + (idx*15),
-        details: `${from} ➜ ${to} · ${dateStr}`
-      }));
-    }
+  await db.collection('Bookings').add({
+  userInfo: { ...bookingData },
+  selectedCar: { ...bookingData.selectedCar },
+  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+  paymentStatus: false,   // boleh terus boolean
+  bookingCode: bookingData.bookingCode,
+  checkin: false          // <--- boolean check-in default
+});
 
-    // --- Screen 1 actions ---
-    document.getElementById('s1Continue').addEventListener('click', ()=> go('s2'));
-    document.getElementById('s1Cancel').addEventListener('click', ()=> {
-      window.location.href = 'https://itshdfs.github.io/homepagedkia/'; // change to your site
-    });
-
-    // back buttons (generic)
-    document.querySelectorAll('[data-back]').forEach(btn=>{
-      btn.addEventListener('click', ()=> go(btn.getAttribute('data-back').slice(1)));
-    });
-
-    // --- Screen 2 actions ---
-    document.getElementById('toFlights').addEventListener('click', ()=>{
-      const title = document.getElementById('title').value.trim();
-      const fullname = document.getElementById('fullname').value.trim();
-      const gender = document.getElementById('gender').value.trim();
-      const dob = document.getElementById('dob').value;
-      const ic = document.getElementById('ic').value.trim();
-      const phone = document.getElementById('phone').value.trim();
-
-      if(!title || !fullname || !gender || !dob || !ic){
-        alert('Please complete all required fields.');
-        return;
-      }
-      state.personal = { title, fullname, gender, dob, ic, phone };
-      go('s3');
-    });
-
-    // --- Screen 3 actions ---
-    document.getElementById('searchFlights').addEventListener('click', ()=>{
-      const from = document.getElementById('from').value;
-      const to = document.getElementById('to').value;
-      const dateBoard = document.getElementById('dateBoard').value;
-      if(!to || !dateBoard){ alert('Please choose destination and date.'); return; }
-
-      state.search = { from, to, dateBoard };
-
-      const results = buildFlights(from, to, dateBoard);
-      const flightResults = document.getElementById('flightResults');
-      flightResults.style.display = 'block';
-      flightResults.innerHTML = results.map((r,i)=>`
-        <div class="item">
-          <h4>${r.flightNumber}</h4>
-          <div class="muted">${r.details}</div>
-          <div><strong>Price:</strong> RM ${r.price}</div>
-          <div class="btns" style="margin-top:6px">
-            <button data-pick="${i}">Select</button>
-          </div>
-        </div>
-      `).join('');
-
-      // attach pick handlers
-      flightResults.querySelectorAll('button[data-pick]').forEach(btn=>{
-        btn.addEventListener('click', ()=>{
-          const idx = Number(btn.getAttribute('data-pick'));
-          state.selectedFlight = results[idx];
-          document.getElementById('chosenRoute').textContent =
-            `${from} ➜ ${to} on ${dateBoard}`;
-          document.getElementById('flightsList').innerHTML = `
-            <div class="item">
-              <h4>${state.selectedFlight.flightNumber}</h4>
-              <div class="muted">${state.selectedFlight.details}</div>
-              <div><strong>Price:</strong> RM ${state.selectedFlight.price}</div>
-            </div>
-          `;
-          go('s4');
-        });
-      });
-    });
-
-    // Proceed to Payment screen by clicking the selected list (s4)
-    document.getElementById('flightsList').addEventListener('click', ()=>{
-      if(!state.selectedFlight){ return; }
-      state.bookingNumber = genBookingNumber();
-      document.getElementById('refCode').textContent = state.bookingNumber;
-      document.getElementById('pickedFlight').innerHTML = `
-        <div class="item">
-          <h4>Selected Flight</h4>
-          <div class="muted">${state.selectedFlight.details}</div>
-          <div><strong>Flight:</strong> ${state.selectedFlight.flightNumber}</div>
-          <div><strong>Price:</strong> RM ${state.selectedFlight.price}</div>
-          <div><strong>Passenger:</strong> ${state.personal.title} ${state.personal.fullname} (${state.personal.gender})</div>
-        </div>
-      `;
-      go('s5');
-    });
-
-    // --- Confirm Booking (write to Firestore) ---
-    document.getElementById('confirmBooking').addEventListener('click', async ()=>{
-      if(!state.bookingNumber || !state.selectedFlight){ alert('Missing selection.'); return; }
-
-      const payload = {
-        bookingNumber: state.bookingNumber,
-        fullname: state.personal.fullname,
-        title: state.personal.title,
-        gender: state.personal.gender,
-        dob: state.personal.dob,                 // ISO date string
-        ic: Number(String(state.personal.ic).slice(0,5)), // first 5 digits only
-        phone: state.personal.phone || "",
-        from: state.search.from,
-        to: state.search.to,
-        flightNumber: state.selectedFlight.flightNumber,
-        dateBoard: state.selectedFlight.dateBoard, // ISO date string
-        price: Number(state.selectedFlight.price),
-        ticketlink: "",                     // fill later after payment if needed
-        paymentApproved: false,             // counter payment later
-        paymentStatus: false,               // mirror if you use this field elsewhere
-        checkedIn: false,                   // not checked-in yet
-        timestamp: serverTimestamp()
-      };
-
-      try {
-        // Save into "bookings" collection using bookingNumber as doc ID
-        await setDoc(doc(db, "checkins", state.bookingNumber), payload);
-
-        // Move to completion
-        document.getElementById('finalRef').textContent = state.bookingNumber;
-        go('s6');
-
-        // Start 30s redirect countdown
-        let t = 30;
-        const el = document.getElementById('countdown');
-        const timer = setInterval(()=>{
-          t--; el.textContent = String(t);
-          if(t<=0){ clearInterval(timer); window.location.href = "https://itshdfs.github.io/homepagedkia/"; }
-        },1000);
-
-        // Done button = immediate redirect
-        document.getElementById('doneBtn').addEventListener('click', ()=>{
-          window.location.href = "https://itshdfs.github.io/homepagedkia/";
-        });
-
-      } catch (err) {
-        console.error("Booking save error:", err);
-        alert("Failed to save booking. Please try again.");
-      }
-    });
-  </script>
+  hideLoadingScreen();
+  bookingCodeDisplay.textContent = bookingData.bookingCode;
+  showScreen('prePaymentScreen');
+  setTimeout(()=>{ window.location.href='https://www.mykualaexpress.com'; },20000);
+});
+</script>
 </body>
 </html>
-
-
